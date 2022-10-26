@@ -58,6 +58,13 @@ type Query {
 	): UserConnection!
 	usersList(limit: Int = 4, offset: Int, snapshot: String!): [User!]!
 	userNodes(limit: Int = 4, offset: Int, snapshot: String!): UserNodes!
+	modelsConnection(
+		after: String
+		before: String
+		first: Int
+		last: Int
+		snapshot: String!
+	): ModelConnection!
 	session: String
 	cities: [City]!
 }
@@ -106,4 +113,33 @@ type City {
 	id: ID!
 	name: String!
 	libraries: [Library]!
+}
+
+type ModelAData {
+  x: Float!
+  y: Float!
+}
+
+type ModelA {
+  data: ModelAData
+}
+
+type ModelBData {
+  msg: String
+}
+
+type ModelB {
+  data: ModelBData
+}
+
+union Model = ModelA | ModelB
+
+type ModelEdge {
+	cursor: String
+	node: Model
+}
+
+type ModelConnection {
+	edges: [ModelEdge!]!
+	pageInfo: PageInfo!
 }
